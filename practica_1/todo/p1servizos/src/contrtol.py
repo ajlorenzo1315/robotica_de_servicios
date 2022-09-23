@@ -1,14 +1,24 @@
 #!/usr/bin/env python
 
-import re
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 import numpy as np 
 from std_msgs.msg import String
-import sys
 
-   
+import os
+#os.system('rostopic list')
+import sys,time
+
+def call_robot(robot_ind,limit):
+    for i in range(0,limit):
+        os.system("".join(['rosrun p1 robot_comun.py -r ','robot',str(robot_ind), ' -t 10 ']))
+
+
+
+import threading
+
+"""
 def talker():
     robot=2
     action={}
@@ -35,3 +45,51 @@ if __name__ == '__main__':
         talker()
     except rospy.ROSInterruptException:
         pass
+"""
+
+
+lista_de_datos=[]
+def feedback(msg):
+    global lista_de_datos
+    lista_de_datos.append(msg.data)
+
+
+def talker():
+
+    rospy.init_node('control')
+    pub1=rospy.Publisher("datos_fin", String,queue_size=1)
+    sub=rospy.Subscriber("/datos_fin", String, feedback)
+    rate = rospy.Rate(10) # 10hz
+    ROBOTS = 3
+    hilos_todos=[]
+    for num_hilo in range(1,ROBOTS+1):
+        hilo = threading.Thread(name='hilo%s' %num_hilo, 
+                                target=call_robot,args = (num_hilo,3, ))    
+        hilo.start()
+        hilos_todos.append(hilo)
+        #time.sleep(1)
+        #hilo.join() 
+        print("thread finished...exiting") 
+
+    
+    cont=len(lista_de_datos)    
+    while not rospy.is_shutdown():
+
+        if len(lista_de_datos)!=cont:
+            print(lista_de_datos) 
+            cont=len(lista_de_datos)
+
+        #if len(lista_de_datos)>=8:
+        #    break
+
+    for hilo in hilos_todos:    
+
+        hilo.join() 
+  
+    
+if __name__ == '__main__':
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
+  

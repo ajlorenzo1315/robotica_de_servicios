@@ -3,6 +3,7 @@
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
+from std_msgs.msg import String
 
 
 import numpy as np 
@@ -123,6 +124,8 @@ def iniciar_nodo(argv):
     rate=rospy.Rate(10)
 
     cero_move(move_r1,move)
+    datos=rospy.Publisher("/datos_fin", String,queue_size=1)
+
     inicial = time.time()
     if limit!=None:
         limit = inicial + limit
@@ -143,11 +146,12 @@ def iniciar_nodo(argv):
         #rospy.spin()
         
         rate.sleep()
-        
+
         inicial = time.time()
         if limit!=None:
             if inicial>=limit:
                 cero_move(move_r1,move)
+                datos.publish(robot)
                 break
 
 
