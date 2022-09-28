@@ -3,6 +3,7 @@
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
+
 from std_msgs.msg import String
 
 
@@ -89,6 +90,7 @@ def get_giro(ang,dist,pub,move):
     move.angular.z= -1/(dist*ang)
     pub.publish(move)
 
+#def info_robot(vel,time,time_inicial,distancias):
 
 def iniciar_nodo(argv):
     
