@@ -1,0 +1,8 @@
+prefix=/home/robotica/servicios/devel
+
+Name: p1robot
+Description: Description of p1robot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

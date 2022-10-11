@@ -1,0 +1,2 @@
+p1robot:p1servizos
+-DCATKIN_DEVEL_PREFIX=/home/robotica/servicios/devel -DCMAKE_INSTALL_PREFIX=/home/robotica/servicios/install -G Unix Makefiles
