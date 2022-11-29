@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.5">
+	<world name="my_world">
+		<!-- A global light source -->
+		<include>
+			<uri>model://sun</uri>
+		</include>
+
+		<!-- A ground plane -->
+		<include>
+			<uri>model://ground_plane</uri>
+		</include>
+        
+		
+    <!-- Testing the automatic population of objects -->
+    <population name="maze_population">
+      <model name="maze">
+        <include>
+          <uri>model://default_maze</uri>
+        </include>
+      </model>    
+	    <pose>0 0 0 0 0 0</pose>
+      <!-- 
+      parametros non necesarios se se utiliza a distrubucion grid
+      <box>
+        <size>50 50 0.2</size>
+      </box>
+      <model_count>8</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+      -->
+      <distribution>
+        <type>grid</type>
+        <rows>5</rows>
+        <cols>6</cols>
+        <step>15 15 0</step>
+      </distribution>
+    </population>
+
+    <population name="robot_population">
+      <model name="robot">
+        <include>
+          <static>false</static>
+          <uri>model://robot</uri>
+        </include>
+      </model>    
+	    <pose>-1.5 0 0 0 0 0</pose>
+      <!-- 
+      <box>
+        <size>50 50 0.2</size>
+      </box>
+      <model_count>8</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+      -->
+      <distribution>
+        <type>grid</type>
+        <rows>5</rows>
+        <cols>6</cols>
+        <step>15 15 0</step>
+      </distribution>
+    </population>
+
+    
+    
+
+	</world>
+</sdf>
